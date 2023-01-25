@@ -3,51 +3,51 @@
 
 OneMoreFunnyLanguage format
 
-OMFL - это формат для хранения конфигурационных файлов. По своей природе он похож на ini, но является более гибким. Основной его целью является возможность получать из конфига значение по определенному ключу и логическое разделение на секции и подсекции.
+OMFL is a format for storing configuration files. By nature, it is similar to ini, but is more flexible. Its main goal is the ability to get a value from a config by a certain key and logical division into sections and sub-sections.
 
-## Формат
+## Format
 
-OMFL-файл это текстовый файл в кодировке ASCII формате OMFL. Далее будет описана спецификация формата. Основной конструкцией для OMFL является пара KeyValue.
-Формат чувствителен к регистру. Пробелы и пустые строки игнорируются.
+OMFL file is a text file in ASCII OMFL format. Further, the format specification will be described. The main construction for OMFL is a KeyValue pair.
+The format is case-sensitive. Spaces and empty lines are ignored.
 
-### Ключ\Значение
+### Key\Value
 
-Ключ слева, далее знак равенства, далее значение.
+Key on the left, then the equal sign, then the value.
 ```text
 key = "value"
 ```
 
-И ключ и значение являются обязательными. Перенос строки - запрещен.
-Значение не может быть переопределено для одного и того же ключа (в рамках одной секции)
+Both key and value are mandatory. Line breaks are prohibited.
+Value cannot be overridden for the same key (within one section)
 
-#### Ключ
+#### Key
 
-Ключ может состоять из:
+Key can consist of:
 
-- Заглавных и строчных латинских букв
-- Цифр
-- Символов '-' и '_'
+- Capital and lowercase Latin letters
+- Numbers
+- Symbols '-' and '_'
 
-Ключ не может быть нулевой длины.
+The key cannot be zero length.
 
 ```text
 number = 0
 name = "M3100"
 ```
 
-#### Значение
+#### Value
 
-Значение может быть одним из следующих типов
+The value can be one of the following types
 
-- целое число
-- вещественное число
-- строка
-- логическая переменная
-- массив из значений
+- integer
+- real number
+- string
+- logical variable
+- array of values
 
-#### Целое число
+#### Integer
 
-Состоит из цифр(одной или более). Возможно добавление символа '+'  или '-' в качестве первого символа.
+Consists of digits (one or more). It is possible to add the character '+' or '-' as the first character.
 
 ```text
 key1 = 1
@@ -55,12 +55,12 @@ key2 = -2022
 key3 = +128
 ```
 
-Возможное значение поместится в int32_t
+The possible value will fit in int32_t
 
-#### Вещественное число
+#### Real number
 
-Состоит из цифр(одной или более) и одной '.'. Перед и после точки, должна быть хотя бы одна цифра
-Возможно добавление символа '+'  или '-' в качестве первого символа.
+Consists of digits (one or more) and one '.'. Before and after the dot, there must be at least one digit
+It is possible to add the character '+' or '-' as the first character.
 
 ```text
 key1 = 1.23
@@ -68,28 +68,28 @@ key2 = -2.77
 key3 = -0.0001
 ```
 
-##### Строка
+##### String
 
-Строка окружена двойными кавычками. Содержит любые символы.
+The string is surrounded by double quotes. Contains any characters.
 
 ```text
 key1 = "value"
 key2 = "Hello world!"
 ```
 
-#### Логическое значение
+#### Boolean value
 
-Для логических значений используется литерал "true" или "false"
+For boolean values, the literal "true" or "false" is used
 
 ```text
 key1 = true
 key2 = false
 ```
 
-#### Массив
+#### Array
 
-Массив окружен символами '[' и ']'. Элементы разделены ','.
-Массив может состоять из любых корректных Значений, не обязательно одного типа
+The array is surrounded by the characters '[' and ']'. The elements are separated by ','.
+An array can consist of any valid Values, not necessarily of the same type
 
 ```text
 key1 = [1, 2, 3, 4, 5]
@@ -98,16 +98,16 @@ key3 = [[1, 2, 3, 4, 5], ["Hello", "world"]]
 key4 = [1, 3.3, "ITMO", [true, false]]
 ```
 
-### Секции
+### Sections
 
-Помимо блока ключ значения, формат поддерживает секции. Секции позволяют объединять множества Ключ\Значение в логические блоки.
-Секция определяется как Ключ окруженный знаками '[' и ']'
+In addition to the key value block, the format supports sections. Sections allow you to combine sets of Key\Value into logical blocks.
+A section is defined as a Key surrounded by the characters '[' and ']'
 
 ```text
 [name]
 ```
 
-После объявления секции все последующие пары Ключ\Значения принадлежат этой секции, до того момента пока не будет объявлена следующая
+After declaring a section, all subsequent Key\Value pairs belong to this section, until the next one is declared
 
 ```text
 [section-1]
@@ -118,7 +118,7 @@ key2 = "2"
 key1 = 2
 ```
 
-Хотя секция подчиняется плавила Ключей, она может содержать еще и символ '.'. Что определяет вложенные друг в друга секции.
+Although the section obeys the melting of Keys, it can also contain the symbol '.'. Which defines nested sections.
 
 ```text
 [section-1.part-1.x]
@@ -130,7 +130,7 @@ key1 = 2
 [section-2.z]
 ```
 
-Таким образом секция может содержать как пары Ключ\Значение так и другие секции. Ключ и название подсекции не могут совпадать
+Thus, a section can contain both Key\Value pairs and other sections. The key and the name of the subsection cannot match
 
 ```text
 [A]
@@ -143,27 +143,25 @@ key2 = 3
 key3 = 3
 ```
 
-#### Комментарии
+#### Comments
 
-Конфиг может содержать однострочный комментарий. Комментарии начинаются с символа '#', кроме случаев когда '#' находится внутри строкового значения.
+The config may contain a one-line comment. Comments start with the character '#', except when '#' is inside a string value.
 
 ```text
     key1 = "value1"  # some comment
     # another comment
 ```
 
-## Парсер
+## Parser
 
-Цель работы состоит в том чтобы реализовать парсер формат OMFL.
+The purpose of the work is to implement the OMFL format parser.
 
-Парсер должен
+The parser should
 
-- Валидировать корректность файла согласно Формату OMFL
-- Считывать данные из файла в объект, класс которого обладает интерфейсом, позволяющим получить секцию или значение по ключу.
-- То каким интерфейсом должен обладать парсер описано в тестах
+- Validate the correctness of the file according to the OMFL format
+- Read data from a file into an object whose class has an interface that allows you to get a section or value by key.
+- What interface the parser should have is described in the tests
 
-## Тесты
+## Tests
 
-В директории tests находятся только базовые тесты на соблюдение формата и парсер.
-Рекомендуется написать тесты на те структуры данных и функции, которые вы создадите и возможно дополнить существующие.
-
+The tests directory contains only basic format compliance tests and a parser.
