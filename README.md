@@ -130,7 +130,7 @@ Although the section obeys the melting of Keys, it can also contain the symbol '
 [section-2.z]
 ```
 
-Thus, a section can contain both Key\Value pairs and other sections. The key and the name of the subsection cannot match
+Section can contain both Key\Value pairs and other sections. The key and the name of the subsection cannot match
 
 ```text
 [A]
@@ -154,13 +154,11 @@ The config may contain a one-line comment. Comments start with the character '#'
 
 ## Parser
 
-The purpose of the work is to implement the OMFL format parser.
+The parser does
 
-The parser should
-
-- Validate the correctness of the file according to the OMFL format
-- Read data from a file into an object whose class has an interface that allows you to get a section or value by key.
-- What interface the parser should have is described in the tests
+- Validates the correctness of the file according to the OMFL format
+- Reads data from a file into an object whose class has an interface that allows you to get a section or value by key.
+- What interface the parser has is described in the tests
 
 ## Tests
 
